@@ -1,0 +1,56 @@
+# =========================
+# Pasta de API (NÃO versionar)
+# =========================
+api/
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# =========================
+# Python cache / bytecode
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Ambientes virtuais
+# =========================
+.venv/
+venv/
+.env/
+env/
+ENV/
+
+# =========================
+# Arquivos de sistema
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs e arquivos temporários
+# =========================
+*.log
+*.tmp
+*.temp
+
+# =========================
+# Arquivos de IDE / editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Cache de ferramentas
+# =========================
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
