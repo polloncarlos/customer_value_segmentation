@@ -1,9 +1,4 @@
 # =========================
-# Pasta de API (NÃO versionar)
-# =========================
-api/
-
-# =========================
 # Jupyter Notebook
 # =========================
 .ipynb_checkpoints/
@@ -18,11 +13,21 @@ __pycache__/
 *.pyd
 
 # =========================
+# CSVs
+# =========================
+data/raw/
+data/db/
+data/embedding/
+*.sqlite
+
+
+# =========================
 # Ambientes virtuais
 # =========================
 .venv/
 venv/
 .env/
+.env
 env/
 ENV/
 
@@ -54,3 +59,4 @@ Thumbs.db
 .mypy_cache/
 .coverage
 htmlcov/
+*.nbconvert.ipynb
