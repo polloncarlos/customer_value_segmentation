@@ -2,11 +2,10 @@ import os
 import joblib
 
 from dotenv import load_dotenv
+
 from src.data_loader import load_data
 from src.feature_engineering import transform_data
 from src.deploy import save_to_rds
-
-import umap
 
 
 # ==============================
@@ -25,15 +24,17 @@ DATA_PATH = os.getenv("S3_PATH")
 
 ENDPOINT = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 
+
 # ==============================
 # MAIN
 # ==============================
+
 def main():
 
-    print("🔹 [1/8] Carregando dados...")
+    print("🔹 [1/6] Carregando dados...")
     df = load_data(DATA_PATH)
 
-    print("🔹 [2/8] Feature engineering...")
+    print("🔹 [2/6] Feature engineering...")
     df = transform_data(df)
 
     features = [
@@ -46,37 +47,20 @@ def main():
 
     X = df[features].copy()
 
-    print("🔹 [3/8] Carregando modelos...")
-
-    rf = joblib.load("models/rf.pkl")
-    ohe = joblib.load("models/ohe.pkl")
+    print("🔹 [3/6] Carregando modelos...")
+    scaler = joblib.load("models/scaler.pkl")
     kmeans = joblib.load("models/kmeans.pkl")
 
-    print("🔹 [4/8] Gerando embedding...")
+    print("🔹 [4/6] Scaling...")
+    X_scaled = scaler.transform(X)
 
-    leafs = rf.apply(X)
-    embedding = ohe.transform(leafs)
+    print("🔹 [5/6] Gerando clusters...")
+    df['cluster'] = kmeans.predict(X_scaled)
 
-    print("🔹 [5/8] Recalculando UMAP...")
-
-    reducer = umap.UMAP(
-        n_neighbors=15,
-        n_components=2,
-        random_state=42
-    )
-
-    embedding_reduced = reducer.fit_transform(embedding)
-
-    print("🔹 [6/8] Gerando clusters...")
-
-    df['cluster'] = kmeans.predict(embedding_reduced)
-
-    print("🔹 [7/8] Salvando no RDS...")
-
+    print("🔹 [6/6] Salvando no RDS...")
     save_to_rds(df, ENDPOINT)
 
-    print("✅ Predição finalizada!")
-    print("✅ Dados salvos no RDS")
+    print("✅ Predição finalizada com sucesso!")
 
 
 if __name__ == "__main__":
