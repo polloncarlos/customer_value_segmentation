@@ -47,7 +47,7 @@ Invoices canceladas (`InvoiceNo` iniciando com `C`) foram tratadas separadamente
 
 ## 4. Solution Strategy
 
-A solução segue o framework **CRISP-DS** adaptado para projetos de clusterização com deploy em cloud:
+A solução segue o framework **CRISP-DM** adaptado para projetos de clusterização com deploy em cloud:
 
 ```
 Business Understanding
@@ -132,6 +132,8 @@ Principais grupos de features:
 | DBSCAN | 0.672 | 10 |
 
 > O pré-processamento com embeddings (RandomForest leaf embeddings + UMAP) melhorou significativamente a separação entre clusters em todos os algoritmos avaliados.
+
+> Esses scores são do experimento com embeddings. A versão de produção (StandardScaler → KMeans, sem embeddings) não teve o Silhouette registrado aqui.
 
 Para produção, foi adotado:
 
